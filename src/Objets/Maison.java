@@ -19,7 +19,7 @@ public class Maison extends Group {
 
     private Rectangle base(boolean effect) {
         Rectangle base = new Rectangle(10, 50, 80, 50);
-        base.setFill(Color.WHITE);
+        base.setFill(Color.BEIGE);
 
         if (effect) {
             DropShadow ds = new DropShadow(8, -10, 10, Color.DARKGREY);

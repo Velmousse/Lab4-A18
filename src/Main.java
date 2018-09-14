@@ -1,4 +1,7 @@
 import Objets.Maison;
+import Objets.Soleil;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -11,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application{
     public static void main(String[] args) { launch(args); }
@@ -33,12 +37,22 @@ public class Main extends Application{
         maison1.setTranslateX(550);
         maison1.setTranslateY(150);
 
+        Soleil soleil = new Soleil();
+        soleil.setTranslateX(220);
+        soleil.setTranslateY(-20);
+
+        RotateTransition rt = new RotateTransition(Duration.seconds(6), soleil);
+        rt.setByAngle(360);
+        rt.setCycleCount(Timeline.INDEFINITE);
+        rt.play();
+
         Group root = new Group(
                 fond(),
                 maison,
                 maison1,
                 texte(),
-                lune());
+                lune(),
+                soleil);
 
         return new Scene(root, 800, 400);
     }
