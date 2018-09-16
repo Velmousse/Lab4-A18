@@ -27,9 +27,9 @@ public class Soleil extends Group {
         return new Group(base, lineGrouper());
     }
 
-    private Line lineBuilder(boolean grand) {
+    private Line lineBuilder(int grand) {
         Line ligne;
-        if (grand)
+        if (grand == 0)
             ligne = new Line(100, 65, 100, 25);
         else
             ligne = new Line(100, 65, 100, 35);
@@ -41,42 +41,30 @@ public class Soleil extends Group {
     }
 
     private Group lineGrouper() {
-        Line ligne = lineBuilder(true);
+        Line lignes[] = new Line[8];
+        double valeurs[] = new double[3];
 
-        Line ligne1 = lineBuilder(false);
-        ligne1.setRotate(45.0);
-        ligne1.setTranslateX(35);
-        ligne1.setTranslateY(15);
+        for (int i = 0; i < 8; i++) {
+            lignes[i] = lineBuilder(i % 2);
+            valeurs = lineSetter(i);
+            lignes[i].setRotate(valeurs[0]);
+            lignes[i].setTranslateX(valeurs[1]);
+            lignes[i].setTranslateY(valeurs[2]);
+        }
 
-        Line ligne2 = lineBuilder(false);
-        ligne2.setRotate(-45.0);
-        ligne2.setTranslateX(-35);
-        ligne2.setTranslateY(15);
+        return new Group(lignes[0], lignes[1], lignes[2], lignes[3], lignes[4], lignes[5], lignes[6], lignes[7]);
+    }
 
-        Line ligne3 = lineBuilder(true);
-        ligne3.setRotate(90.0);
-        ligne3.setTranslateX(55);
-        ligne3.setTranslateY(55);
-
-        Line ligne4 = lineBuilder(true);
-        ligne4.setRotate(-90);
-        ligne4.setTranslateX(-55);
-        ligne4.setTranslateY(55);
-
-        Line ligne5 = lineBuilder(false);
-        ligne5.setRotate(135.0);
-        ligne5.setTranslateX(35);
-        ligne5.setTranslateY(85);
-
-        Line ligne6 = lineBuilder(false);
-        ligne6.setRotate(-135.0);
-        ligne6.setTranslateX(-35);
-        ligne6.setTranslateY(85);
-
-        Line ligne7 = lineBuilder(true);
-        ligne7.setRotate(180);
-        ligne7.setTranslateY(110);
-
-        return new Group(ligne, ligne1, ligne2, ligne3, ligne4, ligne5, ligne6, ligne7);
+    private double[] lineSetter(int i) {
+        switch (i) {
+            case 0: return new double[]{0, 0, 0};
+            case 1: return new double[]{45.0, 35, 15};
+            case 2: return new double[]{90.0, 55, 55};
+            case 3: return new double[]{-45.0, -35, 15};
+            case 4: return new double[]{-90.0, -55, 55};
+            case 5: return new double[]{135.0, 35, 85};
+            case 6: return new double[]{180.0, 0, 110};
+            case 7: default: return new double[]{-135.0, -35, 85};
+        }
     }
 }

@@ -1,5 +1,8 @@
 import Objets.Maison;
+import Objets.Oiseau;
 import Objets.Soleil;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -10,6 +13,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -44,7 +48,20 @@ public class Main extends Application{
         RotateTransition rt = new RotateTransition(Duration.seconds(6), soleil);
         rt.setByAngle(360);
         rt.setCycleCount(Timeline.INDEFINITE);
+        rt.setInterpolator(Interpolator.LINEAR);
         rt.play();
+
+        Oiseau oiseau = new Oiseau();
+        oiseau.setScaleX(0.85);
+        oiseau.setScaleY(0.85);
+        oiseau.setTranslateX(-40);
+        oiseau.setTranslateY(20);
+
+        Oiseau oiseau1 = new Oiseau();
+        oiseau1.setScaleX(0.85);
+        oiseau1.setScaleY(0.85);
+        oiseau1.setTranslateX(90);
+        oiseau1.setTranslateY(-20);
 
         Group root = new Group(
                 fond(),
@@ -52,7 +69,13 @@ public class Main extends Application{
                 maison1,
                 texte(),
                 lune(),
-                soleil);
+                soleil,
+                etoile(3, 1, 0, 215, -215, 0.3),
+                etoile(2, 1, 0, 245, -150, 0.2),
+                etoile(2, 0, 1, 300, -175, 0.3),
+                etoile(2, 0, 1, 375, -160, 0.37),
+                oiseau,
+                oiseau1);
 
         return new Scene(root, 800, 400);
     }
@@ -82,9 +105,27 @@ public class Main extends Application{
         Stop[] stops = new Stop[] { new Stop(0, Color.WHITE), new Stop(1, Color.BLACK) };
         LinearGradient lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 
-        Circle lune = new Circle(750, 50, 30);
+        Circle lune = new Circle(750, 65, 30);
         lune.setFill(lg);
 
         return lune;
+    }
+
+    public Polygon etoile(int temps, double from, double to, double transX, double transY, double scale) {
+        Polygon etoile = new Polygon(250, 200, 262, 238, 300, 238, 269, 262, 281, 300, 250, 277, 219, 300, 231, 262, 200, 238, 238, 238);
+        etoile.setFill(Color.YELLOW);
+        etoile.setTranslateX(transX);
+        etoile.setTranslateY(transY);
+        etoile.setScaleX(scale);
+        etoile.setScaleY(scale);
+
+        FadeTransition ft = new FadeTransition(Duration.seconds(temps), etoile);
+        ft.setFromValue(from);
+        ft.setToValue(to);
+        ft.setCycleCount(Timeline.INDEFINITE);
+        ft.setAutoReverse(true);
+        ft.play();
+
+        return etoile;
     }
 }
